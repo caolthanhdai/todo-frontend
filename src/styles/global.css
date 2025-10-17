@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+
+:root{
+  --c-text:#111827;              /* chữ */
+  --c-text-rgb:17 24 39;         /* RGB để pha alpha */
+  --c-surface:#ffffff;           /* nền bề mặt */
+  --c-border-rgb:229 231 235;    /* viền (RGB) */
+  --c-primary:#4f46e5;           /* màu nhấn */
+}
+html.dark{
+  --c-text:#f1f5f9;
+  --c-text-rgb:241 245 249;
+  --c-surface:#0f172a;
+  --c-border-rgb:51 65 85;
+  --c-primary:#6366f1;
+}
+@layer base{
+  body{ color:var(--c-text); background:var(--c-surface); }
+  h1,h2,h3,h4,h5,h6,p,span,small,li,strong,em{ color:inherit; }
+}
