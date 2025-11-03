@@ -13,10 +13,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" >
       <body>
-        {/* Shell: sidebar | content */}
         <ClientShell>{children}</ClientShell>
-
-
       </body>
     </html>
   );

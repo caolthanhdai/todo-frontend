@@ -1,21 +1,64 @@
+// src/types/user.ts
 export type User = {
-    name: string;
-    email: string;
-    avatarSrc?: string | React.ReactNode;
-    location?: string;
-    unreadNotifications?: number;
+  userId: string
+  name: string
+  email: string
+  avatarSrc?: string // FE render <img src={avatarSrc} />
+  location?: string
+  unreadNotifications: number
+  createdAt: string // ISO
 }
 
-// Task types for Todo App
-export type TaskStatus = "todo" | "in-progress" | "done";
-export type TaskPriority = "low" | "medium" | "high";
+// src/types/task.ts
+export type TaskStatus = "todo" | "in-progress" | "done"
+export type TaskPriority = "low" | "medium" | "high"
 
 export type Task = {
-    id: string;
-    title: string;
-    description: string;
-    status: TaskStatus;
-    priority: TaskPriority;
-    dueDate?: string;
-    createdAt: string;
+  taskId: string
+  title: string
+  description: string
+  status: TaskStatus
+  priority: TaskPriority
+  dueDate?: string // ISO
+  createdAt: string // ISO
+  createdById: string
+  members?: Pick<User, "userId" | "name" | "avatarSrc">[]
+  images?: UploadedImage[]
+  comments?: TaskMessage[]
+  files?: TaskFile[]
+}
+
+// src/types/upload.ts
+export type UploadedImage = {
+  imageId: string
+  name: string
+  url: string
+  size: number
+  type: string // "image/png" ...
+  uploadedAt: string // ISO
+  uploadedById: string
+  taskId: string
+}
+
+// src/types/comment.ts
+export type TaskMessage = {
+  id: string
+  messageId: string
+  taskId: string
+  authorId: string
+  content: string
+  createdAt: string // ISO
+  editedAt?: string // ISO
+}
+
+// src/types/file.ts
+export type TaskFile = {
+  fileId: string
+  name: string
+  url: string
+  size: number
+  type: string // "application/pdf" ...
+  uploadedAt: string // ISO
+  uploadedById: string
+  taskId: string
 }

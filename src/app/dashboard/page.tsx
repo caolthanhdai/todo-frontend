@@ -5,6 +5,9 @@ import Filter from "@/public/icons/Filter";
 import Calendar from "@/public/icons/Calendar";
 import Profile2User from "@/public/icons/Profile2User";
 import ThemeToggleButton from "@/components/ThemeToggleButton";
+import TaskCard from "@/components/TaskCard"
+import TaskBoard from "@/components/TaskBoard"
+
 export default function DashboardPage() {
   return (
     <div>
@@ -57,10 +60,9 @@ export default function DashboardPage() {
             Today
             <span className="text-[rgb(var(--c-text-rgb)/0.6)]">▼</span>
           </button>
-        </div>
-
-                
+        </div>       
       </div>
-    </div>
+      <TaskBoard/>
+    </div>  
   );
 }

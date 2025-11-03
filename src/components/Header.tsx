@@ -1,39 +1,26 @@
-"use client";
+"use client"
 
-import Image from "next/image";
-import Link from "next/link";
-import {
-  Calendar,
-  MessageQuestion,
-  Notification,
-  SearchNormal,
-  HambergerMenu,
-} from "iconsax-react";
-import { useState } from "react";
-import { User } from "../types/type";
-import logo from "../public/images/logo.png";
-import MobileSidebar from "./MobieSideBar";
+import Image from "next/image"
+import Link from "next/link"
+import { Calendar, MessageQuestion, Notification, SearchNormal, HambergerMenu } from "iconsax-react"
+import { useState } from "react"
+import { User } from "../types/type"
+import logo from "../public/images/logo.png"
+import MobileSidebar from "./MobieSideBar"
+import { useUIStore } from "@/app/store/UIStore"
 
 function getInitial(name: string) {
-  return (name?.trim()?.[0] ?? "?").toUpperCase();
+  return (name?.trim()?.[0] ?? "?").toUpperCase()
 }
 
-export default function Header({
-  mobileOpen,
-  dark,
-  setMobileOpen,
-  setDark,
-  user,
-}: {
-  mobileOpen: boolean;
-  dark: boolean;
-  setDark: (dark: boolean) => void;
-  setMobileOpen: (open: boolean) => void;
-  user: User;
-}) {
-  const unread = user.unreadNotifications ?? 0;
-  const badgeText = unread > 99 ? "99+" : String(unread);
-  const [query, setQuery] = useState("");
+export default function Header({ user }: { user: User }) {
+  const unread = user.unreadNotifications ?? 0
+  const badgeText = unread > 99 ? "99+" : String(unread)
+  const [query, setQuery] = useState("")
+  const mobileOpen = useUIStore((state) => state.mobileOpen)
+  const setMobileOpen = useUIStore((state) => state.setMobileOpen)
+  const dark = useUIStore((state) => state.dark)
+  const setDark = useUIStore((state) => state.setDark)
 
   return (
     <header className="sticky top-0 z-40 bg-[var(--c-surface)]/90 backdrop-blur">
@@ -52,7 +39,12 @@ export default function Header({
               <HambergerMenu size="22" color="currentColor" />
             </button>
 
-            <MobileSidebar dark={dark} setDark={setDark} mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
+            <MobileSidebar
+              dark={dark}
+              setDark={setDark}
+              mobileOpen={mobileOpen}
+              setMobileOpen={setMobileOpen}
+            />
 
             <button
               className="sm:hidden p-2 rounded-lg text-[var(--c-text)] hover:bg-[rgb(var(--c-text-rgb)/0.06)]"
@@ -136,5 +128,5 @@ export default function Header({
         </div>
       </div>
     </header>
-  );
+  )
 }

@@ -13,6 +13,7 @@ import { useState } from "react";
 import Image from "next/image";
 import logo from "../public/images/logo.png";
 import ThemeToggleButton from "./ThemeToggleButton";
+import {useUIStore} from "@/app/store/UIStore";
 
 export type NavItem = {
   label: string;
@@ -27,17 +28,11 @@ const navItems: NavItem[] = [
   { label: "Settings", href: "/settings", icon: <Setting2 size={20} color="currentColor" /> },
 ];
 
-export default function Sidebar({
-  collapsed, dark,
-  setCollapsed, setDark
-}: {
-  collapsed: boolean; dark: boolean;
-  setCollapsed: (collapsed: boolean) => void;
-  setDark: (dark: boolean) => void;
-}) {
+export default function Sidebar() {
   const [hover, setHover] = useState(false);
-  
-  console.log("Sidebar rendered", { dark });
+  const [collapsed, setCollapsed] = useState(false);
+  const dark = useUIStore((state) => state.dark);
+  const setDark = useUIStore((state) => state.setDark);
   return (
     <aside
       className={`hidden sm:flex h-screen sticky top-0 
