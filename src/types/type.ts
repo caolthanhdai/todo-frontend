@@ -62,3 +62,18 @@ export type TaskFile = {
   uploadedById: string
   taskId: string
 }
+
+// auth type definitions
+export type LoginDto = {
+  identifier: string
+  password: string
+}
+export type RegisterDto = {
+  name: string
+  email: string
+  password: string
+}
+export type AuthResponseDto = {
+  user: User
+  accessToken: string
+}

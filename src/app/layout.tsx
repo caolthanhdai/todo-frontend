@@ -1,21 +1,14 @@
-import ClientShell from "./ClientShell";
-import "../styles/global.css";
-import Header from "@/components/Header";
-import Sidebar from "@/components/Sidebar";
+import "../styles/global.css"
 
 export const metadata = {
   title: "Project M",
   description: "Dashboard",
-};
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
- 
-  return (
-    <html lang="en" >
-      <body>
-        <ClientShell>{children}</ClientShell>
-      </body>
-    </html>
-  );
 }
 
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  )
+}

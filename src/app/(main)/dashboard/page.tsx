@@ -1,14 +1,14 @@
-import LinkIcon from "@/public/icons/Link";
-import AddSquare from "@/public/icons/AddSquare";
-import ArrowSquareUp from "@/public/icons/ArrowSquareUp";
-import Filter from "@/public/icons/Filter";
-import Calendar from "@/public/icons/Calendar";
-import Profile2User from "@/public/icons/Profile2User";
-import ThemeToggleButton from "@/components/ThemeToggleButton";
+import LinkIcon from "@/public/icons/Link"
+import AddSquare from "@/public/icons/AddSquare"
+import ArrowSquareUp from "@/public/icons/ArrowSquareUp"
+import Filter from "@/public/icons/Filter"
+import Calendar from "@/public/icons/Calendar"
+import Profile2User from "@/public/icons/Profile2User"
+import ThemeToggleButton from "@/components/ThemeToggleButton"
 import TaskCard from "@/components/TaskCard"
 import TaskBoard from "@/components/TaskBoard"
 
-export default function DashboardPage() {
+export default function HomePage() {
   return (
     <div>
       {/* TITLE ROW */}
@@ -60,9 +60,9 @@ export default function DashboardPage() {
             Today
             <span className="text-[rgb(var(--c-text-rgb)/0.6)]">▼</span>
           </button>
-        </div>       
+        </div>
       </div>
-      <TaskBoard/>
-    </div>  
-  );
+      <TaskBoard />
+    </div>
+  )
 }

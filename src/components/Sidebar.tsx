@@ -1,38 +1,31 @@
-"use client";
+"use client"
 
-import Link from "next/link";
-import {
-  Home,
-  Message,
-  TaskSquare,
-  Setting2,
-  ArrowLeft2,
-  ArrowRight2,
-} from "iconsax-react";
-import { useState } from "react";
-import Image from "next/image";
-import logo from "../public/images/logo.png";
-import ThemeToggleButton from "./ThemeToggleButton";
-import {useUIStore} from "@/app/store/UIStore";
+import Link from "next/link"
+import { Home, Message, TaskSquare, Setting2, ArrowLeft2, ArrowRight2 } from "iconsax-react"
+import { useState } from "react"
+import Image from "next/image"
+import logo from "../public/images/logo.png"
+import ThemeToggleButton from "./ThemeToggleButton"
+import { useUIStore } from "@/app/store/UIStore"
 
 export type NavItem = {
-  label: string;
-  href: string;
-  icon: React.ReactNode;
-};
+  label: string
+  href: string
+  icon: React.ReactNode
+}
 
 const navItems: NavItem[] = [
   { label: "Home", href: "/dashboard", icon: <Home size={20} color="currentColor" /> },
   { label: "Messages", href: "/messages", icon: <Message size={20} color="currentColor" /> },
   { label: "Tasks", href: "/tasks", icon: <TaskSquare size={20} color="currentColor" /> },
   { label: "Settings", href: "/settings", icon: <Setting2 size={20} color="currentColor" /> },
-];
+]
 
 export default function Sidebar() {
-  const [hover, setHover] = useState(false);
-  const [collapsed, setCollapsed] = useState(false);
-  const dark = useUIStore((state) => state.dark);
-  const setDark = useUIStore((state) => state.setDark);
+  const [hover, setHover] = useState(false)
+  const [collapsed, setCollapsed] = useState(false)
+  const dark = useUIStore((state) => state.dark)
+  const setDark = useUIStore((state) => state.setDark)
   return (
     <aside
       className={`hidden sm:flex h-screen sticky top-0 
@@ -93,5 +86,5 @@ export default function Sidebar() {
         <ThemeToggleButton dark={dark} setDark={setDark} />
       </div>
     </aside>
-  );
+  )
 }
