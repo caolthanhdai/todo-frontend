@@ -4,7 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Calendar, MessageQuestion, Notification, SearchNormal, HambergerMenu } from "iconsax-react"
 import { useState } from "react"
-import { User } from "../types/type"
+import { UserResponseDto } from "../types/type"
 import logo from "../public/images/logo.png"
 import MobileSidebar from "./MobieSideBar"
 import { useUIStore } from "@/app/store/UIStore"
@@ -13,7 +13,7 @@ function getInitial(name: string) {
   return (name?.trim()?.[0] ?? "?").toUpperCase()
 }
 
-export default function Header({ user }: { user: User }) {
+export default function Header({ user }: { user: UserResponseDto }) {
   const unread = user.unreadNotifications ?? 0
   const badgeText = unread > 99 ? "99+" : String(unread)
   const [query, setQuery] = useState("")

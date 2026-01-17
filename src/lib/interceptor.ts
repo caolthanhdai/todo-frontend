@@ -1,5 +1,4 @@
-import axios, { AxiosError } from "axios"
-import { apiClient } from "./apiClient"
+import axios, { AxiosError, AxiosInstance } from "axios"
 import { API_ENDPOINTS } from "./constants"
 import { getApiBaseUrl } from "./env"
 import { getAccessToken, setAccessToken, clearAccessToken } from "./authToken"
@@ -28,57 +27,55 @@ async function requestNewAccessToken(): Promise<string | null> {
 }
 
 // Thêm interceptor để tự động gắn token vào header Authorization Authorization: Bearer <token>
-apiClient.interceptors.request.use(
-  (config) => {
-    const token = getAccessToken()
+export function setupInterceptors(apiClient: AxiosInstance) {
+  // Request interceptor
+  apiClient.interceptors.request.use(
+    (config) => {
+      const token = getAccessToken()
 
-    if (token && config.headers) {
-      config.headers.Authorization = `Bearer ${token}`
+      if (token) {
+        config.headers = config.headers ?? {}
+        config.headers.Authorization = `Bearer ${token}`
+      }
+      return config
+    },
+    (err) => Promise.reject(err)
+  )
+
+  // Response interceptor
+  apiClient.interceptors.response.use(
+    (res) => res,
+    async (error: AxiosError) => {
+      const originalConfig: any = error.config
+
+      if (error.response?.status !== 401 || originalConfig._retry) {
+        return Promise.reject(error)
+      }
+
+      originalConfig._retry = true
+
+      if (!isRefreshing) {
+        isRefreshing = true
+        refreshPromise = requestNewAccessToken().finally(() => {
+          isRefreshing = false
+        })
+      }
+
+      const newToken = await refreshPromise
+
+      if (!newToken) {
+        clearAccessToken()
+        window.location.href = "/login"
+        return Promise.reject(error)
+      }
+
+      setAccessToken(newToken)
+      originalConfig.headers = {
+        ...originalConfig.headers,
+        Authorization: `Bearer ${newToken}`,
+      }
+
+      return apiClient(originalConfig)
     }
-
-    return config
-  },
-  (error) => Promise.reject(error)
-)
-
-// Thêm interceptor để xử lý lỗi 401 và làm mới token
-apiClient.interceptors.response.use(
-  (response) => response,
-  async (error: AxiosError) => {
-    // Lấy config gốc của request
-    const originalConfig: any = error.config
-
-    // Không phải 401 hoặc đã retry rồi thì bỏ
-    if (error.response?.status !== 401 || originalConfig?._retry) {
-      return Promise.reject(error)
-    }
-    // Đánh dấu đã retry
-    originalConfig._retry = true
-
-    // Tránh nhiều request cùng lúc đều gọi refresh vì isRefreshing được lưu ở phạm vi module
-    // tất cả các request đều chạy file này, cùng 1 instance của apiClient nên dùng chung 1 biến duy nhất
-    if (!isRefreshing) {
-      isRefreshing = true
-      refreshPromise = requestNewAccessToken().finally(() => {
-        isRefreshing = false
-      })
-    }
-    // Chờ lấy token mới
-    const newToken = await refreshPromise
-
-    // Nếu không lấy được token mới thì clear token cũ và trả về lỗi
-    if (!newToken) {
-      clearAccessToken()
-      redirect("/login")
-      return Promise.reject(error)
-    }
-    // Lưu token mới
-    setAccessToken(newToken)
-    // Gắn token mới vào header và retry request gốc
-    if (originalConfig.headers) {
-      originalConfig.headers.Authorization = `Bearer ${newToken}`
-    }
-
-    return apiClient(originalConfig)
-  }
-)
+  )
+}

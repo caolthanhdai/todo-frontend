@@ -1,7 +1,7 @@
 import { apiClient } from "../apiClient"
 import { API_ENDPOINTS } from "../constants"
 import { getAccessToken, setAccessToken, clearAccessToken } from "../authToken"
-import { User, AuthResponseDto, LoginDto, RegisterDto } from "@/types/type"
+import { UserResponseDto, AuthResponseDto, LoginDto, RegisterDto } from "@/types/type"
 
 // Hàm đăng nhập
 export async function login(dto: LoginDto): Promise<AuthResponseDto> {

@@ -1,14 +1,11 @@
-// Lưu token tạm trong bộ nhớ JS
-let accessToken: string | null = null
-
-export const setAccessToken = (token: string | null) => {
-  accessToken = token
+export function setAccessToken(token: string) {
+  localStorage.setItem("accessToken", token)
 }
 
-export const getAccessToken = (): string | null => {
-  return accessToken
+export function getAccessToken() {
+  return localStorage.getItem("accessToken")
 }
 
-export const clearAccessToken = () => {
-  accessToken = null
+export function clearAccessToken() {
+  localStorage.removeItem("accessToken")
 }

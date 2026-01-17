@@ -12,10 +12,6 @@ export default function FormLogin() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
-    if (getAccessToken()) router.replace("/")
-  }, [router])
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
@@ -25,13 +21,22 @@ export default function FormLogin() {
       const res = await login({ identifier, password })
 
       setAccessToken(res.accessToken)
-      router.push("/dashboard")
+      setTimeout(() => {
+        router.push("/dashboard")
+      }, 50)
     } catch (err) {
       setError("Sai email/username hoặc mật khẩu.")
     } finally {
       setLoading(false)
     }
   }
+  useEffect(() => {
+    const token = getAccessToken()
+    console.log("Existing token:", token)
+    if (token) {
+      router.replace("/dashboard")
+    }
+  }, [])
 
   return (
     <form onSubmit={handleSubmit} className="bg-white p-6 rounded-xl shadow-lg w-full">
