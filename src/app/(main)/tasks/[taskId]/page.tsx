@@ -7,6 +7,7 @@ interface PageProps {
   }
 }
 
-export default function TaskDetailPage({ params }: PageProps) {
-  return <TaskDetail taskId={params.taskId} />
+export default async function TaskDetailPage({ params }: PageProps) {
+  const { taskId } = await params
+  return <TaskDetail taskId={taskId} />
 }

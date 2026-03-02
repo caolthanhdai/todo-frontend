@@ -10,6 +10,7 @@ import {
   AddImageResponseDto,
   AddTaskMemberDto,
   AddTaskMemberResponseDto,
+  TaskSearchResponseDto,
 } from "@/types/type"
 export const createTask = async (
   dto: CreateTaskDto,
@@ -60,10 +61,7 @@ export const addTaskFile = async (taskId: string, file: File): Promise<AddFileRe
 
   const { data } = await apiClient.post<AddFileResponseDto>(
     API_ENDPOINTS.ADD_FILE(taskId),
-    formData,
-    {
-      headers: { "Content-Type": "multipart/form-data" },
-    }
+    formData
   )
 
   return data
@@ -75,8 +73,7 @@ export const addTaskImage = async (taskId: string, image: File): Promise<AddImag
 
   const { data } = await apiClient.post<AddImageResponseDto>(
     API_ENDPOINTS.ADD_IMAGE(taskId),
-    formData,
-    { headers: { "Content-Type": "multipart/form-data" } }
+    formData
   )
 
   return data
@@ -95,8 +92,7 @@ export const addTaskFiles = async (
 
   const { data } = await apiClient.post<AddFileResponseDto[]>(
     API_ENDPOINTS.ADD_FILES(taskId),
-    formData,
-    { headers: { "Content-Type": "multipart/form-data" } }
+    formData
   )
 
   return data
@@ -111,8 +107,7 @@ export const addTaskImages = async (
 
   const { data } = await apiClient.post<AddImageResponseDto[]>(
     API_ENDPOINTS.ADD_IMAGES(taskId),
-    formData,
-    { headers: { "Content-Type": "multipart/form-data" } }
+    formData
   )
 
   return data
@@ -126,4 +121,12 @@ export const addTaskMemberByEmail = async (
     dto
   )
   return data
+}
+
+export async function searchMyTasksLite(q: string): Promise<TaskSearchResponseDto[]> {
+  const res = await apiClient.get<TaskSearchResponseDto[]>(API_ENDPOINTS.SEARCH_MY_TASKS_LITE, {
+    params: { q },
+  })
+
+  return res.data
 }

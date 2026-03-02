@@ -5,9 +5,22 @@ import type { TaskResponseDto } from "@/types/type"
 
 export function TaskColumn({ title, items }: { title: string; items: TaskResponseDto[] }) {
   return (
-    <div className="bg-white rounded-xl border border-gray-200">
+    <div
+      className="
+    rounded-xl
+    bg-[var(--c-surface)]
+    border border-[rgb(var(--c-border-rgb)/1)]
+  "
+    >
       {/* Column title */}
-      <div className="px-4 py-3 border-b border-gray-100 text-sm font-semibold text-gray-700">
+      <div
+        className="
+    px-4 py-3
+    border-b border-[rgb(var(--c-border-rgb)/0.6)]
+    text-sm font-semibold
+    text-[var(--c-text)]
+  "
+      >
         {title}
         {title == "To Do" ? (
           <div className="mx-4 mt-2 h-[3px] bg-violet-600 rounded" />
@@ -19,7 +32,14 @@ export function TaskColumn({ title, items }: { title: string; items: TaskRespons
       </div>
 
       {/* Table header */}
-      <div className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr] px-4 py-2 text-xs text-gray-400 border-b border-gray-200">
+      <div
+        className="
+    grid grid-cols-[2fr_1fr_1fr_1fr_1fr]
+    px-4 py-2 text-xs
+    text-[rgb(var(--c-text-rgb)/0.5)]
+    border-b border-[rgb(var(--c-border-rgb)/1)]
+  "
+      >
         <span>Task</span>
         <span>Stage</span>
         <span>Priority</span>
@@ -32,19 +52,27 @@ export function TaskColumn({ title, items }: { title: string; items: TaskRespons
         <Link
           key={task.taskId}
           href={`/tasks/${task.taskId}`}
-          className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr] px-4 py-3 text-sm border-b border-gray-100 hover:bg-gray-50"
+          className="
+  grid grid-cols-[2fr_1fr_1fr_1fr_1fr]
+  px-4 py-3 text-sm
+  border-b border-[rgb(var(--c-border-rgb)/0.6)]
+  hover:bg-[rgb(var(--c-border-rgb)/0.25)]
+  transition
+"
         >
-          <span className="font-medium">{task.title}</span>
-          <span className="text-gray-500">{task.status}</span>
-          <span className="text-gray-500">{task.priority}</span>
-          <span className="text-gray-500">—</span>
-          <span className="text-gray-500">
+          <span className="font-medium text-[var(--c-text)]">{task.title}</span>
+          <span className="text-[rgb(var(--c-text-rgb)/0.6)]">{task.status}</span>
+          <span className="text-[rgb(var(--c-text-rgb)/0.6)]">{task.priority}</span>
+          <span className="text-[rgb(var(--c-text-rgb)/0.6)]">—</span>
+          <span className="text-[rgb(var(--c-text-rgb)/0.6)]">
             {task.members.find((m) => m.role === "manager")?.name ?? "—"}
           </span>
         </Link>
       ))}
 
-      {items.length === 0 && <div className="px-4 py-6 text-xs text-gray-400">No tasks</div>}
+      {items.length === 0 && (
+        <div className="px-4 py-6 text-xs text-[rgb(var(--c-text-rgb)/0.5)]">No tasks</div>
+      )}
     </div>
   )
 }

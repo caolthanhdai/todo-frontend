@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { Home, Message, TaskSquare, Setting2, ArrowLeft2, ArrowRight2 } from "iconsax-react"
+import { Home, Message, TaskSquare, ArrowLeft2, ArrowRight2 } from "iconsax-react"
 import { useState } from "react"
 import Image from "next/image"
 import logo from "../public/images/logo.png"
@@ -18,7 +18,6 @@ const navItems: NavItem[] = [
   { label: "Home", href: "/dashboard", icon: <Home size={20} color="currentColor" /> },
   { label: "Messages", href: "/messages", icon: <Message size={20} color="currentColor" /> },
   { label: "Tasks", href: "/tasks", icon: <TaskSquare size={20} color="currentColor" /> },
-  { label: "Settings", href: "/settings", icon: <Setting2 size={20} color="currentColor" /> },
 ]
 
 export default function Sidebar() {

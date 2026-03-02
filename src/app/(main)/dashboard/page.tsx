@@ -3,16 +3,14 @@ import AddSquare from "@/public/icons/AddSquare"
 import ArrowSquareUp from "@/public/icons/ArrowSquareUp"
 import Filter from "@/public/icons/Filter"
 import Calendar from "@/public/icons/Calendar"
-import Profile2User from "@/public/icons/Profile2User"
-import ThemeToggleButton from "@/components/ThemeToggleButton"
 import TaskCard from "@/components/TaskCard"
 import TaskBoard from "@/components/TaskBoard"
 
 export default function HomePage() {
   return (
-    <div>
+    <div className="h-full flex flex-col overflow-hidden">
       {/* TITLE ROW */}
-      <div className="m-4 flex items-center justify-between">
+      <div className="m-4 flex items-center justify-between shrink-0 ">
         <div className="flex items-center gap-2">
           <h2 className="text-2xl font-bold text-[var(--c-text)]">ToDo App</h2>
           <button className="p-1 rounded-md text-[var(--c-text)] cursor-pointer">
@@ -62,7 +60,9 @@ export default function HomePage() {
           </button>
         </div>
       </div>
-      <TaskBoard />
+      <div className="flex-1 overflow-y-auto px-4 pb-6">
+        <TaskBoard />
+      </div>
     </div>
   )
 }

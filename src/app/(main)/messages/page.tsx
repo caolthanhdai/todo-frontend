@@ -1,3 +1,10 @@
-export default function Page() {
-  return <h1 className="text-2xl font-semibold">Messages</h1>
+// app/(main)/messages/page.tsx
+import MessagesClient from "./MessagesClient"
+
+export default function MessagesPage() {
+  return (
+    <div className=" h-[calc(100vh-64px)] overflow-hidden">
+      <MessagesClient />
+    </div>
+  )
 }

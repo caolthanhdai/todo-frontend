@@ -1,12 +1,20 @@
 import { io, Socket } from "socket.io-client"
+import { getApiBaseUrl } from "./env"
+import { getAccessToken } from "./authToken"
 
 let socket: Socket | null = null
 
-export function getSocket(token: string) {
+export function getSocket() {
+  const token = getAccessToken()
   if (!socket) {
-    socket = io(process.env.NEXT_PUBLIC_SOCKET_URL!, {
+    socket = io(getApiBaseUrl(), {
       auth: { token },
+      autoConnect: true,
     })
   }
   return socket
+}
+export const disconnectSocket = () => {
+  socket?.disconnect()
+  socket = null
 }

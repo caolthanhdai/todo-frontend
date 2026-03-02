@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosInstance } from "axios"
 import { API_ENDPOINTS } from "./constants"
 import { getApiBaseUrl } from "./env"
 import { getAccessToken, setAccessToken, clearAccessToken } from "./authToken"
-import { redirect } from "next/navigation"
+import type { InternalAxiosRequestConfig } from "axios"
 
 // Tạo axios instance riêng để gọi refresh token tránh lỗi lặp vô hạn
 const refreshClient = axios.create({
@@ -28,11 +28,15 @@ async function requestNewAccessToken(): Promise<string | null> {
 
 // Thêm interceptor để tự động gắn token vào header Authorization Authorization: Bearer <token>
 export function setupInterceptors(apiClient: AxiosInstance) {
-  // Request interceptor
+  /* REQUEST */
   apiClient.interceptors.request.use(
     (config) => {
-      const token = getAccessToken()
+      // 🔒 CHẶN SSR
+      if (typeof window === "undefined") {
+        return config
+      }
 
+      const token = getAccessToken()
       if (token) {
         config.headers = config.headers ?? {}
         config.headers.Authorization = `Bearer ${token}`
@@ -42,11 +46,18 @@ export function setupInterceptors(apiClient: AxiosInstance) {
     (err) => Promise.reject(err)
   )
 
-  // Response interceptor
+  /* RESPONSE */
   apiClient.interceptors.response.use(
     (res) => res,
     async (error: AxiosError) => {
-      const originalConfig: any = error.config
+      // 🔒 CHẶN SSR
+      if (typeof window === "undefined") {
+        return Promise.reject(error)
+      }
+
+      const originalConfig = error.config as InternalAxiosRequestConfig & {
+        _retry?: boolean
+      }
 
       if (error.response?.status !== 401 || originalConfig._retry) {
         return Promise.reject(error)
@@ -70,10 +81,8 @@ export function setupInterceptors(apiClient: AxiosInstance) {
       }
 
       setAccessToken(newToken)
-      originalConfig.headers = {
-        ...originalConfig.headers,
-        Authorization: `Bearer ${newToken}`,
-      }
+
+      originalConfig.headers.set("Authorization", `Bearer ${newToken}`)
 
       return apiClient(originalConfig)
     }

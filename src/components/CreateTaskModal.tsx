@@ -55,19 +55,30 @@ export default function CreateTaskModal({ open, onClose, onCreated }: Props) {
     <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center">
       <div
         ref={modalRef}
-        className="w-full max-w-lg bg-white dark:bg-neutral-900 rounded-2xl p-6 shadow-xl space-y-4"
+        className="w-full max-w-lg bg-[var(--c-surface)]
+border border-[rgb(var(--c-border-rgb)/1)]
+ rounded-2xl p-6 shadow-xl space-y-4"
       >
         {/* header */}
         <div className="flex justify-between items-center">
-          <h2 className="text-lg font-semibold">Create Task</h2>
-          <button onClick={onClose} className="text-xl">
+          <h2 className="text-lg font-semibold text-[var(--c-text)]">Create Task</h2>
+          <button
+            onClick={onClose}
+            className="text-xl text-[rgb(var(--c-text-rgb)/0.6)] hover:text-[var(--c-text)]"
+          >
             ✕
           </button>
         </div>
 
         {/* title */}
         <input
-          className="w-full border rounded-lg px-3 py-2"
+          className=" w-full rounded-lg px-3 py-2
+  bg-transparent
+  border border-[rgb(var(--c-border-rgb)/1)]
+  text-[rgb(var(--c-text-rgb)/0.9)]
+  placeholder:text-[rgb(var(--c-text-rgb)/0.4)]
+  focus:outline-none
+  focus:ring-2 focus:ring-[var(--c-primary)]"
           placeholder="Task title"
           value={form.title}
           onChange={(e) => setForm({ ...form, title: e.target.value })}
@@ -75,7 +86,13 @@ export default function CreateTaskModal({ open, onClose, onCreated }: Props) {
 
         {/* description */}
         <textarea
-          className="w-full border rounded-lg px-3 py-2"
+          className=" w-full rounded-lg px-3 py-2
+  bg-transparent
+  border border-[rgb(var(--c-border-rgb)/1)]
+  text-[rgb(var(--c-text-rgb)/0.9)]
+  placeholder:text-[rgb(var(--c-text-rgb)/0.4)]
+  focus:outline-none
+  focus:ring-2 focus:ring-[var(--c-primary)]"
           placeholder="Description"
           rows={3}
           value={form.description}
@@ -85,9 +102,11 @@ export default function CreateTaskModal({ open, onClose, onCreated }: Props) {
         {/* status + priority */}
         <div className="grid grid-cols-2 gap-3">
           <select
-            className="border rounded-lg px-2 py-2"
+            className="border rounded-lg px-2 py-2 bg-transparent border-[rgb(var(--c-border-rgb)/1)] text-[rgb(var(--c-text-rgb)/0.9)] focus:outline-none focus:ring-2 focus:ring-[var(--c-primary)]"
             value={form.status}
-            onChange={(e) => setForm({ ...form, status: e.target.value as any })}
+            onChange={(e) =>
+              setForm({ ...form, status: e.target.value as CreateTaskDto["status"] })
+            }
           >
             <option value="todo">Todo</option>
             <option value="in-progress">In Progress</option>
@@ -95,9 +114,11 @@ export default function CreateTaskModal({ open, onClose, onCreated }: Props) {
           </select>
 
           <select
-            className="border rounded-lg px-2 py-2"
+            className="border rounded-lg px-2 py-2 bg-transparent border-[rgb(var(--c-border-rgb)/1)] text-[rgb(var(--c-text-rgb)/0.9)] focus:outline-none focus:ring-2 focus:ring-[var(--c-primary)]"
             value={form.priority}
-            onChange={(e) => setForm({ ...form, priority: e.target.value as any })}
+            onChange={(e) =>
+              setForm({ ...form, priority: e.target.value as CreateTaskDto["priority"] })
+            }
           >
             <option value="low">Low</option>
             <option value="medium">Medium</option>
@@ -141,7 +162,13 @@ export default function CreateTaskModal({ open, onClose, onCreated }: Props) {
         <button
           disabled={loading}
           onClick={submit}
-          className="w-full bg-violet-600 hover:bg-violet-700 text-white py-2 rounded-lg"
+          className="
+  w-full py-2 rounded-lg
+  bg-[var(--c-primary)]
+  text-white
+  hover:opacity-90
+  transition
+"
         >
           {loading ? "Creating..." : "Create Task"}
         </button>

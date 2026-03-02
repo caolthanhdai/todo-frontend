@@ -16,6 +16,11 @@ export const API_ENDPOINTS = {
   ADD_MEMBER: (taskId: string) => `/tasks/${taskId}/members`,
   ADD_FILES: (taskId: string) => `/tasks/${taskId}/files`,
   ADD_IMAGES: (taskId: string) => `/tasks/${taskId}/images`,
+  TASK_WITH_LAST_MESSAGE: "/messages",
+  GET_INITIAL_MESSAGES: (taskId: string) => `/tasks/${taskId}/messages`,
+  GET_MESSAGES_BEFORE: (taskId: string) => `/tasks/${taskId}/messages/before`,
+  SEND_MESSAGE: (taskId: string) => `/tasks/${taskId}/messages`,
+  SEARCH_MY_TASKS_LITE: "/tasks/my/search-lite",
 } as const
 
 export const TASK_STATUS = {

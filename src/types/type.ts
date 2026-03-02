@@ -76,7 +76,7 @@ export interface TaskResponseDto {
   priority: TaskPriority
 
   members: TaskMemberResponseDto[]
-
+  myRole: Role
   files?: {
     id: string
     name: string
@@ -139,5 +139,82 @@ export interface AddTaskMemberResponseDto {
   role: string
 }
 
-export interface CreateTaskResponseDto extends TaskResponseDto {}
-export interface UpdateTaskResponseDto extends TaskResponseDto {}
+export type CreateTaskResponseDto = TaskResponseDto
+export type UpdateTaskResponseDto = TaskResponseDto
+
+export interface MessageResponseDto {
+  messageId: string
+  taskId: string
+  content: string
+  createdAt: string
+  author: MessageAuthorDto
+}
+export class MessageAuthorDto {
+  userId!: string
+  name!: string
+  avatarSrc?: string | null
+}
+
+export interface TaskWithLastMessageDto {
+  taskId: string
+  title: string
+  updatedAt: string
+  lastMessage?: MessageResponseDto | null
+}
+export interface PaginationResponseDto<T> {
+  data: T[]
+  nextCursor: string | null
+}
+
+export interface TaskSearchResponseDto {
+  taskId: string
+  title: string
+  status: TaskStatus
+  priority: TaskPriority
+  myRole: Role
+  messagesCount: number
+  updatedAt: string
+}
+export interface TaskMemberDetailResponseDto {
+  userId: string
+  name: string
+  email: string
+  avatarSrc?: string | null
+  role: Role
+}
+
+export interface TaskImageDetailResponseDto {
+  id: string
+  name: string
+  url: string
+  uploadedBy: {
+    userId: string
+    name: string
+  }
+  uploadedAt: string
+}
+
+export interface TaskFileDetailResponseDto {
+  id: string
+  name: string
+  url: string
+  uploadedBy: {
+    userId: string
+    name: string
+  }
+  uploadedAt: string
+}
+export interface NotificationPayload {
+  taskId?: string
+}
+
+export interface NotificationItem {
+  id: string
+  userId: string
+  type: string
+  title: string
+  content?: string | null
+  payload?: NotificationPayload | null
+  isRead: boolean
+  createdAt: string
+}

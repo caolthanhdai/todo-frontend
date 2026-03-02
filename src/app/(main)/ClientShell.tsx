@@ -42,25 +42,27 @@ export default function ClientShell({ children }: { children: React.ReactNode })
   useEffect(() => {
     if (!token) return
 
-    const socket = getSocket(token)
+    const socket = getSocket()
     socket.emit("ready")
-
+    socket.on("ready:ok", () => {
+      console.log("Socket ready")
+    })
     return () => {
-      socket.disconnect()
+      socket.off("ready:ok")
     }
   }, [token])
 
   // 3) CHẶN RENDER UI CHO ĐẾN KHI USER SẴN SÀNG
   if (checking || !user) return null
   return (
-    <div className="min-h-screen flex">
+    <div className="h-screen overflow-hidden flex">
       <aside className="hidden sm:block shrink-0 ">
         <Sidebar />
       </aside>
 
       <section className="flex-1 flex flex-col">
         <Header user={user} />
-        <main className="p-6 ">{children}</main>
+        <main className="flex-1 overflow-hidden">{children}</main>
       </section>
     </div>
   )
