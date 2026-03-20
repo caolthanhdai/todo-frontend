@@ -1,5 +1,5 @@
 # Stage 1 build
-FROM node:18-alpine AS builder
+FROM node:20-alpine AS builder
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci
@@ -11,8 +11,11 @@ ENV NEXT_PUBLIC_APP_NAME=$NEXT_PUBLIC_APP_NAME
 RUN npm run build
 
 # Stage 2 production
-FROM node:18-alpine
+FROM node:20-alpine
 WORKDIR /app
+
+RUN apk add --no-cache curl
+
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 EXPOSE 3000
